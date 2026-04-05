@@ -26,7 +26,9 @@ jobs:
         run: ./gradlew assembleRelease --no-daemon
 
       - name: Sign APK
-        if: ${{ secrets.KEYSTORE != '' }}
+        env:
+          KEYSTORE: ${{ secrets.KEYSTORE }}
+        if: ${{ env.KEYSTORE != '' }}
         uses: ilharp/sign-android-release@v1
         id: sign
         with:
@@ -37,8 +39,10 @@ jobs:
           buildToolsVersion: 35.0.0
 
       - name: Rename APK
+        env:
+          KEYSTORE: ${{ secrets.KEYSTORE }}
         run: |
-          if [ "${{ secrets.KEYSTORE }}" != "" ]; then
+          if [ "${{ env.KEYSTORE }}" != "" ]; then
             mv "${{ steps.sign.outputs.signedFile }}" "app-release.apk"
           else
             mv app/build/outputs/apk/release/app-release-unsigned.apk "app-release.apk"
