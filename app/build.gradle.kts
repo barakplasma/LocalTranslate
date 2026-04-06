@@ -15,8 +15,8 @@ android {
         applicationId = "com.barakplasma.privateaitranslate"
         minSdk = 26
         targetSdk = 35
-        versionCode = 56
-        versionName = "18.1"
+        versionCode = 57
+        versionName = "18.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
