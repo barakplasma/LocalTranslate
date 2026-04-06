@@ -103,4 +103,8 @@ dependencies {
 
     // Gemini Nano on-device AI via ML Kit GenAI Prompt API
     implementation("com.google.mlkit:genai-prompt:1.0.0-beta1")
+
+    // ML Kit Translation
+    implementation("com.google.mlkit:translate:17.0.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.9.0")
 }
