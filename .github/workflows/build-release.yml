@@ -38,13 +38,17 @@ jobs:
           keyPassword: ${{ secrets.SIGNING_KEY_PASSWORD }}
           buildToolsVersion: 35.0.0
 
-      - name: Rename APK
+      - name: Rename and Sign APK
         env:
           KEYSTORE: ${{ secrets.KEYSTORE }}
         run: |
           if [ "${{ env.KEYSTORE }}" != "" ]; then
             mv "${{ steps.sign.outputs.signedFile }}" "app-release.apk"
           else
+            echo "No custom keystore provided, signing with a generated debug key to allow installation..."
+            keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "C=US, O=Android, CN=Android Debug"
+            APKSIGNER=$(find $ANDROID_HOME/build-tools -name "apksigner" | sort -r | head -n 1)
+            $APKSIGNER sign --ks debug.keystore --ks-pass pass:android --key-pass pass:android app/build/outputs/apk/release/app-release-unsigned.apk
             mv app/build/outputs/apk/release/app-release-unsigned.apk "app-release.apk"
           fi
 
