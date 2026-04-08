@@ -18,6 +18,9 @@
     <string name="translation_error_hint">The selected translation engine doesn\'t seem to work. Please select a different one in the settings.</string>
     <string name="unsupported_language">Engine doesn\'t support language %1$s</string>
     <!-- Settings -->
+    <string name="security">Security</string>
+    <string name="high_security_mode">High security mode</string>
+    <string name="high_security_mode_summary">Restrict translation to on-device engines only. No text is sent over the network.</string>
     <string name="instance">Instance</string>
     <string name="api_key">API key</string>
     <string name="options">Settings</string>

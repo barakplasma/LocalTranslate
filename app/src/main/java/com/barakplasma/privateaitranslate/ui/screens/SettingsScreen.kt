@@ -141,6 +141,23 @@ fun SettingsScreen(
         ) {
             item {
                 SettingsCategory(
+                    title = stringResource(R.string.security)
+                )
+
+                SwitchPreference(
+                    preferenceKey = Preferences.highSecurityModeKey,
+                    defaultValue = false,
+                    preferenceTitle = stringResource(R.string.high_security_mode),
+                    preferenceSummary = stringResource(R.string.high_security_mode_summary)
+                ) {
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        (context as MainActivity).recreate()
+                    }, 100)
+                }
+            }
+
+            item {
+                SettingsCategory(
                     title = stringResource(R.string.translation_engine)
                 )
 

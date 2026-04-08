@@ -21,6 +21,7 @@ class MLKitEngine(
     override val apiKeyState = ApiKeyState.DISABLED
     override val autoLanguageCode = null
     override val supportsAudio = false
+    override val isOnDevice = true
 
     override fun createOrRecreate(): TranslationEngine = apply {
         // No global initialization needed; translator clients are created on demand.

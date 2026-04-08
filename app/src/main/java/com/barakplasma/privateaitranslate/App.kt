@@ -54,5 +54,10 @@ class App : Application() {
         fun updateAllTranslationEngines() {
             for (engine in translationEngines) engine.createOrRecreate()
         }
+
+        fun getAvailableEngines(): List<TranslationEngine> {
+            val highSecurityMode = Preferences.get(Preferences.highSecurityModeKey, false)
+            return if (highSecurityMode) translationEngines.filter { it.isOnDevice } else translationEngines
+        }
     }
 }

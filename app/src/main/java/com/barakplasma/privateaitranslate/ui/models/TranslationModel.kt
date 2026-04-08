@@ -75,7 +75,7 @@ class TranslationModel : ViewModel() {
     var translation by mutableStateOf(Translation(""))
 
     var translatedTexts by mutableStateOf(
-        App.translationEngines
+        App.getAvailableEngines()
             .associate { it.name to Translation("") }
     )
 
@@ -172,7 +172,7 @@ class TranslationModel : ViewModel() {
         translating = true
 
         // reset translations
-        translatedTexts = App.translationEngines
+        translatedTexts = App.getAvailableEngines()
             .associate { it.name to Translation("") }
 
         viewModelScope.launch(Dispatchers.IO) {
@@ -287,19 +287,19 @@ class TranslationModel : ViewModel() {
         return availableLanguages.firstOrNull { it.code == language.code } ?: language
     }
 
-    private fun getCurrentEngine() = App.translationEngines.find {
+    private fun getCurrentEngine() = App.getAvailableEngines().find {
         it.name == Preferences.get(
             Preferences.selectedEngineKey,
-            App.translationEngines.first().name
+            App.getAvailableEngines().first().name
         )
-    } ?: App.translationEngines.first()
+    } ?: App.getAvailableEngines().first()
 
     fun setCurrentEngine(engine: TranslationEngine) {
         Preferences.put(Preferences.selectedEngineKey, engine.name)
         this.engine = engine
     }
 
-    private fun getEnabledEngines() = App.translationEngines.filter {
+    private fun getEnabledEngines() = App.getAvailableEngines().filter {
         Preferences.isSimultaneousTranslationEnabled(it)
     }
 

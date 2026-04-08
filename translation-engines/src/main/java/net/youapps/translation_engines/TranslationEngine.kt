@@ -74,6 +74,12 @@ abstract class TranslationEngine(private val settingsProvider: EngineSettingsPro
     abstract val autoLanguageCode: String?
 
     /**
+     * Set to true if this engine performs translation entirely on-device with no network calls.
+     * Used by high security mode to restrict available engines.
+     */
+    open val isOnDevice: Boolean = false
+
+    /**
      * If set to true, [getAudioFile] has to be implemented as well.
      */
     open val supportsAudio: Boolean = false

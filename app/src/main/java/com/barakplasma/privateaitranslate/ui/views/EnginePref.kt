@@ -52,7 +52,7 @@ import net.youapps.translation_engines.ApiKeyState
 
 @Composable
 fun EnginePref() {
-    val engines = App.translationEngines
+    val engines = App.getAvailableEngines()
 
     var selectedName by remember {
         mutableStateOf(

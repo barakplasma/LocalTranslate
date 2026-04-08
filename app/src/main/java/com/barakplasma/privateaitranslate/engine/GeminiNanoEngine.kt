@@ -34,6 +34,7 @@ class GeminiNanoEngine(
     override val apiKeyState = ApiKeyState.DISABLED
     override val autoLanguageCode = "auto"
     override val supportsAudio = false
+    override val isOnDevice = true
 
     private var model: GenerativeModel? = null
 
