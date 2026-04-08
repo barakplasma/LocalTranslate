@@ -43,6 +43,19 @@ android {
         }
     }
 
+    flavorDimensions += "internet"
+    productFlavors {
+        create("full") {
+            dimension = "internet"
+            buildConfigField("Boolean", "ON_DEVICE_ONLY", "false")
+        }
+        create("noInternet") {
+            dimension = "internet"
+            buildConfigField("Boolean", "ON_DEVICE_ONLY", "true")
+            versionNameSuffix = "-offline"
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -52,6 +65,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     packaging {
         resources {

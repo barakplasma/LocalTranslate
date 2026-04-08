@@ -29,9 +29,9 @@ jobs:
           cache: "gradle"
       - name: Compile
         run: |
-          ./gradlew assembleDebug
+          ./gradlew assembleFullDebug
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: app
-          path: app/build/outputs/apk/debug/*.apk
+          path: app/build/outputs/apk/full/debug/*.apk

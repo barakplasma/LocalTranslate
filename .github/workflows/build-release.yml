@@ -23,7 +23,7 @@ jobs:
           cache: "gradle"
 
       - name: Build APK
-        run: ./gradlew assembleRelease --no-daemon
+        run: ./gradlew assembleFullRelease --no-daemon
 
       - name: Sign APK
         env:
@@ -32,6 +32,7 @@ jobs:
         uses: ilharp/sign-android-release@v1
         id: sign
         with:
+          releaseDir: app/build/outputs/apk/full/release
           signingKey: ${{ secrets.KEYSTORE }}
           keyAlias: ${{ secrets.SIGNING_KEY_ALIAS }}
           keyStorePassword: ${{ secrets.SIGNING_STORE_PASSWORD }}
@@ -48,8 +49,8 @@ jobs:
             echo "No custom keystore provided, signing with a generated debug key to allow installation..."
             keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "C=US, O=Android, CN=Android Debug"
             APKSIGNER=$(find $ANDROID_HOME/build-tools -name "apksigner" | sort -r | head -n 1)
-            $APKSIGNER sign --ks debug.keystore --ks-pass pass:android --key-pass pass:android app/build/outputs/apk/release/app-release-unsigned.apk
-            mv app/build/outputs/apk/release/app-release-unsigned.apk "app-release.apk"
+            $APKSIGNER sign --ks debug.keystore --ks-pass pass:android --key-pass pass:android app/build/outputs/apk/full/release/app-full-release-unsigned.apk
+            mv app/build/outputs/apk/full/release/app-full-release-unsigned.apk "app-release.apk"
           fi
 
       - name: Create changelog
@@ -68,3 +69,56 @@ jobs:
           files: "app-release.apk"
           fail_on_unmatched_files: true
           make_latest: true
+
+  build-no-internet:
+    name: Build, sign and release no-internet app
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: "zulu"
+          java-version: "17"
+          cache: "gradle"
+
+      - name: Build no-internet APK
+        run: ./gradlew assembleNoInternetRelease --no-daemon
+
+      - name: Sign APK
+        env:
+          KEYSTORE: ${{ secrets.KEYSTORE }}
+        if: ${{ env.KEYSTORE != '' }}
+        uses: ilharp/sign-android-release@v1
+        id: sign
+        with:
+          releaseDir: app/build/outputs/apk/noInternet/release
+          signingKey: ${{ secrets.KEYSTORE }}
+          keyAlias: ${{ secrets.SIGNING_KEY_ALIAS }}
+          keyStorePassword: ${{ secrets.SIGNING_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.SIGNING_KEY_PASSWORD }}
+          buildToolsVersion: 35.0.0
+
+      - name: Rename and Sign APK
+        env:
+          KEYSTORE: ${{ secrets.KEYSTORE }}
+        run: |
+          if [ "${{ env.KEYSTORE }}" != "" ]; then
+            mv "${{ steps.sign.outputs.signedFile }}" "app-release-no-internet.apk"
+          else
+            echo "No custom keystore provided, signing with a generated debug key to allow installation..."
+            keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "C=US, O=Android, CN=Android Debug"
+            APKSIGNER=$(find $ANDROID_HOME/build-tools -name "apksigner" | sort -r | head -n 1)
+            $APKSIGNER sign --ks debug.keystore --ks-pass pass:android --key-pass pass:android app/build/outputs/apk/noInternet/release/app-noInternet-release-unsigned.apk
+            mv app/build/outputs/apk/noInternet/release/app-noInternet-release-unsigned.apk "app-release-no-internet.apk"
+          fi
+
+      - name: Upload no-internet APK to release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          files: "app-release-no-internet.apk"
+          fail_on_unmatched_files: true

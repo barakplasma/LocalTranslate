@@ -41,8 +41,12 @@ class App : Application() {
         SpeechHelper.initTTS(this)
 
         val settingsProvider = EnginePreferencesProviderImpl()
-        translationEngines = listOf(GeminiNanoEngine(settingsProvider), MLKitEngine(settingsProvider)) +
-            TranslationEngines.getAllEngines(settingsProvider)
+        translationEngines = if (BuildConfig.ON_DEVICE_ONLY) {
+            listOf(GeminiNanoEngine(settingsProvider), MLKitEngine(settingsProvider))
+        } else {
+            listOf(GeminiNanoEngine(settingsProvider), MLKitEngine(settingsProvider)) +
+                TranslationEngines.getAllEngines(settingsProvider)
+        }
 
         // initialize all translation engines
         updateAllTranslationEngines()
@@ -56,6 +60,7 @@ class App : Application() {
         }
 
         fun getAvailableEngines(): List<TranslationEngine> {
+            if (BuildConfig.ON_DEVICE_ONLY) return translationEngines.filter { it.isOnDevice }
             val highSecurityMode = Preferences.get(Preferences.highSecurityModeKey, false)
             return if (highSecurityMode) translationEngines.filter { it.isOnDevice } else translationEngines
         }
