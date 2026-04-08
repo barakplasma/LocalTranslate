@@ -62,6 +62,7 @@ import com.barakplasma.privateaitranslate.ui.components.prefs.SwitchPreference
 import com.barakplasma.privateaitranslate.ui.dialogs.EngineSelectionDialog
 import com.barakplasma.privateaitranslate.ui.views.EnginePref
 import com.barakplasma.privateaitranslate.ui.views.TessSettings
+import com.barakplasma.privateaitranslate.ui.views.TranslateGemmaSettings
 import com.barakplasma.privateaitranslate.util.LocaleHelper
 import com.barakplasma.privateaitranslate.util.Preferences
 
@@ -95,6 +96,10 @@ fun SettingsScreen(
     }
 
     var showTessSettings by remember {
+        mutableStateOf(false)
+    }
+
+    var showTranslateGemmaSettings by remember {
         mutableStateOf(false)
     }
 
@@ -191,6 +196,14 @@ fun SettingsScreen(
                     summary = stringResource(R.string.image_translation_summary)
                 ) {
                     showTessSettings = true
+                }
+
+                PreferenceItem(
+                    modifier = Modifier.padding(top = 10.dp),
+                    title = stringResource(R.string.translategemma_title),
+                    summary = stringResource(R.string.translategemma_settings_summary)
+                ) {
+                    showTranslateGemmaSettings = true
                 }
             }
 
@@ -341,6 +354,12 @@ fun SettingsScreen(
     if (showTessSettings) {
         TessSettings {
             showTessSettings = false
+        }
+    }
+
+    if (showTranslateGemmaSettings) {
+        TranslateGemmaSettings {
+            showTranslateGemmaSettings = false
         }
     }
 

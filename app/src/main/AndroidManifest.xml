@@ -2,9 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Allow genai-prompt library (minSdk 26) to be included in an app with minSdk 21.
-         The engine performs a runtime API level check before using the library. -->
-    <uses-sdk tools:overrideLibrary="com.google.mlkit.genai.prompt,com.google.mlkit.genai.common,com.google.mlkit.genai,com.google.mlkit" />
+    <!-- Allow genai-prompt and litertlm libraries (minSdk 26/31) to be included in an app
+         with minSdk 26. The engines perform runtime API level checks before using the libraries. -->
+    <uses-sdk tools:overrideLibrary="com.google.mlkit.genai.prompt,com.google.mlkit.genai.common,com.google.mlkit.genai,com.google.mlkit,com.google.ai.edge.litertlm" />
 
     <!-- Internet permissions -->
     <uses-permission android:name="android.permission.INTERNET" />

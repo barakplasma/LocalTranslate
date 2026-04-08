@@ -90,6 +90,14 @@
     <string name="favorites">Favorites</string>
     <string name="clear_favorites">Clear favorites</string>
     <string name="all_languages">All languages</string>
+    <!-- TranslateGemma -->
+    <string name="translategemma_title">TranslateGemma (On-Device)</string>
+    <string name="translategemma_settings_summary">Download and manage the on-device TranslateGemma model.</string>
+    <string name="translategemma_summary">TranslateGemma is an on-device translation model by Google that runs entirely on your device. It supports 55+ languages and requires no internet connection after the initial download.\n\nModel size: ~2 GB (INT4 quantized). A Wi-Fi connection and ~3 GB of free storage are required for download.</string>
+    <string name="translategemma_model_not_downloaded">Model not downloaded</string>
+    <string name="translategemma_model_downloaded">Model downloaded</string>
+    <string name="translategemma_downloading">Downloading… %1$d%%</string>
+    <string name="translategemma_download_error">Download failed. Tap to retry.</string>
     <!-- Tesseract -->
     <string name="image_translation">Translation from Image</string>
     <string name="image_translation_summary">Download and apply languages for text recognition from images.</string>

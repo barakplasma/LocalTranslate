@@ -20,6 +20,7 @@ package com.barakplasma.privateaitranslate
 import android.app.Application
 import com.barakplasma.privateaitranslate.engine.GeminiNanoEngine
 import com.barakplasma.privateaitranslate.engine.MLKitEngine
+import com.barakplasma.privateaitranslate.engine.TranslateGemmaEngine
 import com.barakplasma.privateaitranslate.util.EnginePreferencesProviderImpl
 import com.barakplasma.privateaitranslate.util.Preferences
 import com.barakplasma.privateaitranslate.util.SpeechHelper
@@ -42,10 +43,17 @@ class App : Application() {
 
         val settingsProvider = EnginePreferencesProviderImpl()
         translationEngines = if (BuildConfig.ON_DEVICE_ONLY) {
-            listOf(GeminiNanoEngine(settingsProvider), MLKitEngine(settingsProvider))
+            listOf(
+                GeminiNanoEngine(settingsProvider),
+                MLKitEngine(settingsProvider),
+                TranslateGemmaEngine(settingsProvider, this)
+            )
         } else {
-            listOf(GeminiNanoEngine(settingsProvider), MLKitEngine(settingsProvider)) +
-                TranslationEngines.getAllEngines(settingsProvider)
+            listOf(
+                GeminiNanoEngine(settingsProvider),
+                MLKitEngine(settingsProvider),
+                TranslateGemmaEngine(settingsProvider, this)
+            ) + TranslationEngines.getAllEngines(settingsProvider)
         }
 
         // initialize all translation engines
