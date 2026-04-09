@@ -6,7 +6,7 @@
 
 <!-- ---------- Badges ---------- -->
   <div align="center">
-    <img alt="License" src="https://img.shields.io/github/license/barakplasma/Private AI Translate?color=c3e7ff&style=flat-square">
+    <img alt="License" src="https://img.shields.io/github/license/barakplasma/PrivateAlTranslate?color=c3e7ff&style=flat-square">
     <img alt="Last commit" src="https://img.shields.io/github/last-commit/barakplasma/Private AI Translate?color=c3e7ff&style=flat-square">
     <img alt="Repo size" src="https://img.shields.io/github/repo-size/barakplasma/Private AI Translate?color=c3e7ff&style=flat-square">
     <img alt="Stars" src="https://img.shields.io/github/stars/barakplasma/Private AI Translate?color=c3e7ff&style=flat-square">
