@@ -71,19 +71,19 @@ class TranslateGemmaModel : ViewModel() {
     private fun pollDownloadProgress(context: Context, downloadId: Long) {
         pollJob?.cancel()
         pollJob = viewModelScope.launch(Dispatchers.IO) {
-            while (isActive) {
+            pollLoop@ while (isActive) {
                 val progress = TranslateGemmaHelper.queryProgress(context, downloadId)
                 when (progress) {
                     null, -1f -> {
                         downloadState = DownloadState.ERROR
-                        break
+                        break@pollLoop
                     }
                     1f -> {
                         downloadProgress = 1f
                         isModelDownloaded = TranslateGemmaEngine.getModelFile(context).exists()
                         modelFileSizeBytes = TranslateGemmaHelper.getModelFileSizeBytes(context)
                         downloadState = DownloadState.DONE
-                        break
+                        break@pollLoop
                     }
                     else -> {
                         downloadProgress = progress
