@@ -16,3 +16,6 @@ local.properties
 app/release
 app/standard/release
 app/libre/release
+*.jks
+*.keystore
+upload_secrets.sh
