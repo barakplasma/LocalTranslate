@@ -135,6 +135,7 @@ class TranslateGemmaEngine(
             CrashLogger.e(TAG, "Critical: CPU backend also failed: ${e.message}", e)
             throw IllegalStateException("All translation backends failed: ${e.message}", e)
         }
+    }
 
     @Synchronized
     private fun getOrCreateEngine(): Engine {
