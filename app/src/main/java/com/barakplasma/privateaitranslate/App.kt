@@ -21,6 +21,7 @@ import android.app.Application
 import com.barakplasma.privateaitranslate.engine.GeminiNanoEngine
 import com.barakplasma.privateaitranslate.engine.MLKitEngine
 import com.barakplasma.privateaitranslate.engine.TranslateGemmaEngine
+import com.barakplasma.privateaitranslate.util.CrashLogger
 import com.barakplasma.privateaitranslate.util.EnginePreferencesProviderImpl
 import com.barakplasma.privateaitranslate.util.Preferences
 import com.barakplasma.privateaitranslate.util.SpeechHelper
@@ -30,6 +31,8 @@ import net.youapps.translation_engines.TranslationEngines
 class App : Application() {
     override fun onCreate() {
         super.onCreate()
+
+        CrashLogger.init(this)
 
         Preferences.initialize(
             this

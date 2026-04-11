@@ -39,6 +39,7 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.UploadFile
+import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -60,6 +61,7 @@ import com.barakplasma.privateaitranslate.ui.dialogs.FullscreenDialog
 import com.barakplasma.privateaitranslate.ui.models.DownloadState
 import com.barakplasma.privateaitranslate.ui.models.ImportState
 import com.barakplasma.privateaitranslate.ui.models.TranslateGemmaModel
+import com.barakplasma.privateaitranslate.util.CrashLogger
 
 @Composable
 fun TranslateGemmaSettings(
@@ -230,6 +232,23 @@ fun TranslateGemmaSettings(
                                 ) {
                                     model.resetError()
                                 }
+                            }
+                        }
+                    }
+                    item {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 8.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = "Send crash logs",
+                                modifier = Modifier.weight(1f),
+                                style = MaterialTheme.typography.bodyMedium
+                            )
+                            StyledIconButton(imageVector = Icons.Default.BugReport) {
+                                CrashLogger.sendLogsToNtfy()
                             }
                         }
                     }

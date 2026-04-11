@@ -19,7 +19,7 @@ package com.barakplasma.privateaitranslate.engine
 
 import android.content.Context
 import android.os.Build
-import android.util.Log
+import com.barakplasma.privateaitranslate.util.CrashLogger
 import com.google.ai.edge.litertlm.Backend
 import com.google.ai.edge.litertlm.Engine
 import com.google.ai.edge.litertlm.EngineConfig
@@ -55,7 +55,7 @@ class TranslateGemmaEngine(
         try {
             liveEngine?.close()
         } catch (e: Exception) {
-            Log.e(TAG, "Failed to close engine: ${e.message}", e)
+            CrashLogger.e(TAG, "Failed to close engine: ${e.message}", e)
         }
         liveEngine = null
     }
@@ -73,12 +73,14 @@ class TranslateGemmaEngine(
                 modelPath = modelFile.absolutePath,
                 backend = Backend.CPU()
             )
+            CrashLogger.i(TAG, "Initializing engine with model: ${modelFile.absolutePath} (${modelFile.length()} bytes)")
             val engine = Engine(config)
             engine.initialize()
             liveEngine = engine
+            CrashLogger.i(TAG, "Engine initialized successfully")
             engine
         } catch (e: Exception) {
-            Log.e(TAG, "Failed to initialize engine: ${e.message}", e)
+            CrashLogger.e(TAG, "Failed to initialize engine: ${e.message}", e)
             throw IllegalStateException("TranslateGemma engine initialization failed: ${e.message}", e)
         }
     }
@@ -101,13 +103,13 @@ class TranslateGemmaEngine(
                     try {
                         sb.append(chunk)
                     } catch (e: Exception) {
-                        Log.w(TAG, "Failed to append chunk: ${e.message}", e)
+                        CrashLogger.w(TAG, "Failed to append chunk: ${e.message}", e)
                     }
                 }
             }
             Translation(translatedText = sb.toString().trim())
         } catch (e: Exception) {
-            Log.e(TAG, "Translation failed: ${e.message}", e)
+            CrashLogger.e(TAG, "Translation failed: ${e.message}", e)
             throw IllegalStateException("Translation failed: ${e.message}", e)
         }
     }
