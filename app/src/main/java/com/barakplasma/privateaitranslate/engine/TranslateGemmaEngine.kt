@@ -132,7 +132,6 @@ class TranslateGemmaEngine(
                         else -> Backend.CPU()
                     }
                     CrashLogger.w(TAG, "Falling back from '$selectedBackend' to '$backendName'")
-                    resetBackendToDefault(backendName)
                     return Pair(backendName, backend)
                 } catch (e: Exception) {
                     CrashLogger.w(TAG, "Fallback backend '$backendName' also failed: ${e.message}")
@@ -143,22 +142,11 @@ class TranslateGemmaEngine(
         // Last resort: Always use CPU
         try {
             CrashLogger.w(TAG, "All preferred backends failed, using CPU as last resort")
-            resetBackendToDefault("CPU")
             return Pair("CPU", Backend.CPU())
         } catch (e: Exception) {
             CrashLogger.e(TAG, "Critical: CPU backend also failed: ${e.message}", e)
             throw IllegalStateException("All translation backends failed: ${e.message}", e)
         }
-    }
-
-    private fun resetBackendToDefault(defaultBackend: String) {
-        try {
-            settingsProvider.storeSelectedModel(this, defaultBackend)
-            CrashLogger.i(TAG, "Reset backend preference to: $defaultBackend")
-        } catch (e: Exception) {
-            CrashLogger.e(TAG, "Failed to reset backend preference: ${e.message}")
-        }
-    }
 
     @Synchronized
     private fun getOrCreateEngine(): Engine {
