@@ -100,7 +100,7 @@ class TranslateGemmaEngine(
 
         val engine = getOrCreateEngine()
         val sourceLang = if (source.isEmpty() || source == autoLanguageCode) "auto" else source
-        val prompt = "<<<source>>>$sourceLang<<<target>>>$target<<<text>>>$query"
+        val prompt = "<src>$sourceLang</src><dst>$target</dst><text>$query</text>"
 
         CrashLogger.i(TAG, "About to translate: source=$sourceLang target=$target query='$query' backend=${getSelectedModel() ?: "CPU"}")
 
@@ -111,7 +111,7 @@ class TranslateGemmaEngine(
                 CrashLogger.i(TAG, "Sending message async...")
                 conversation.sendMessageAsync(prompt).collect { chunk ->
                     try {
-                        sb.append(chunk)
+                        sb.append(chunk.toString())
                     } catch (e: Exception) {
                         CrashLogger.w(TAG, "Failed to append chunk: ${e.message}", e)
                     }
