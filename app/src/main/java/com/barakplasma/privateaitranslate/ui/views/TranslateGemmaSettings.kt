@@ -33,13 +33,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
-import com.barakplasma.privateaitranslate.ui.components.SearchAppBar
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.UploadFile
 import androidx.compose.material.icons.filled.BugReport
+import androidx.compose.material.icons.filled.OpenInBrowser
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -51,8 +51,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.barakplasma.privateaitranslate.ui.components.SearchAppBar
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.barakplasma.privateaitranslate.R
 import com.barakplasma.privateaitranslate.ui.components.DialogButton
@@ -235,6 +237,12 @@ fun TranslateGemmaSettings(
                             }
                         }
                     }
+
+                    if (!model.isModelDownloaded) {
+                        item {
+                            OfflineDownloadLinkRow()
+                        }
+                    }
                     item {
                         Row(
                             modifier = Modifier
@@ -248,7 +256,7 @@ fun TranslateGemmaSettings(
                                 style = MaterialTheme.typography.bodyMedium
                             )
                             StyledIconButton(imageVector = Icons.Default.BugReport) {
-                                CrashLogger.sendLogsToNtfy()
+                                CrashLogger.sendLogsToSentry()
                             }
                         }
                     }
@@ -337,5 +345,34 @@ private fun ModelStatusRow(
             }
         }
         action()
+    }
+}
+
+@Composable
+private fun OfflineDownloadLinkRow() {
+    val uriHandler = LocalUriHandler.current
+    val modelUrl = "https://huggingface.co/barakplasma/translategemma-4b-it-android-task-quantized/resolve/main/artifacts/int4-generic/translategemma-4b-it-int4-generic.litertlm"
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 12.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = "Offline Download",
+                style = MaterialTheme.typography.bodyMedium
+            )
+            Text(
+                text = "Download model directly from HuggingFace",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+        StyledIconButton(
+            imageVector = Icons.Default.OpenInBrowser,
+            onClick = { uriHandler.openUri(modelUrl) }
+        )
     }
 }
