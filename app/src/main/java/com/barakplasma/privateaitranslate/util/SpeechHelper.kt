@@ -53,7 +53,7 @@ object SpeechHelper {
     }
 
     fun speak(context: Context, text: String, language: String) {
-        val result = tts.setLanguage(Locale(language))
+        val result = tts.setLanguage(Locale.Builder().setLanguage(language).build())
 
         if (result == TextToSpeech.LANG_MISSING_DATA ||
             result == TextToSpeech.LANG_NOT_SUPPORTED

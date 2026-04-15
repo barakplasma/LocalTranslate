@@ -30,7 +30,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.DeleteForever
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material3.AlertDialog
@@ -97,7 +97,7 @@ fun HistoryScreen(
                 onValueChange = { searchQuery = it },
                 navigationIcon = {
                     StyledIconButton(
-                        imageVector = Icons.Default.ArrowBack
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack
                     ) {
                         navController.popBackStack()
                     }

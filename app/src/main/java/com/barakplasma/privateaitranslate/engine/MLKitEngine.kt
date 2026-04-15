@@ -29,7 +29,7 @@ class MLKitEngine(
 
     override suspend fun getLanguages(): List<Language> {
         return TranslateLanguage.getAllLanguages().map { code ->
-            Language(code, Locale(code).displayLanguage)
+            Language(code, Locale.Builder().setLanguage(code).build().displayLanguage)
         }.sortedBy { it.name }
     }
 

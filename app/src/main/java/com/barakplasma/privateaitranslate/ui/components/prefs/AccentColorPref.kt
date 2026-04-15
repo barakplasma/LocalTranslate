@@ -155,7 +155,7 @@ fun AccentColorPrefDialog(
                             onChange = { colorInt ->
                                 var newHex = colorInt.toHexString()
                                 if (newHex.length == 1) newHex = "0$newHex"
-                                color = StringBuilder(color).apply {
+                                color = StringBuilder(color!!).apply {
                                     setCharAt(startIndex, newHex[0])
                                     setCharAt(startIndex + 1, newHex[1])
                                 }.toString()

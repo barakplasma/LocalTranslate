@@ -55,8 +55,8 @@ private data class RectMetadata(
     val top: Float,
     val width: Float,
     val height: Float,
-    @ColorInt val background: Int,
-    @ColorInt val foreground: Int,
+    @param:ColorInt val background: Int,
+    @param:ColorInt val foreground: Int,
 )
 
 @OptIn(ExperimentalMaterial3Api::class)

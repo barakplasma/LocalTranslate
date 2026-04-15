@@ -28,11 +28,13 @@ object LocaleHelper {
         val langPref = Preferences.get(Preferences.appLanguageKey, "")
         val locale = when {
             langPref.isEmpty() -> Locale.getDefault()
-            langPref.contains("-") -> Locale(
-                langPref.substringBefore("-"),
-                langPref.substringAfter("r")
-            )
-            else -> Locale(langPref)
+            langPref.contains("-") -> Locale.Builder()
+                .setLanguage(langPref.substringBefore("-"))
+                .setRegion(langPref.substringAfter("r"))
+                .build()
+            else -> Locale.Builder()
+                .setLanguage(langPref)
+                .build()
         }
         updateResources(context, locale)
     }

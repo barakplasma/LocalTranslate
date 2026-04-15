@@ -32,7 +32,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
@@ -111,7 +111,7 @@ fun AboutPage(
                 title = {},
                 navigationIcon = {
                     StyledIconButton(
-                        imageVector = Icons.Default.ArrowBack
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack
                     ) {
                         navController.popBackStack()
                     }

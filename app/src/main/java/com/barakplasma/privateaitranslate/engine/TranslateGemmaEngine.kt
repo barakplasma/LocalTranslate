@@ -196,21 +196,18 @@ class TranslateGemmaEngine(
         return try {
             val sb = StringBuilder()
             val conversation = engine.createConversation()
-                ?: throw IllegalStateException("Failed to create conversation: Engine returned null. This may indicate model loading failure or insufficient device memory.")
 
             conversation.use { conv ->
                 val flow = conv.sendMessageAsync(prompt)
-                    ?: throw IllegalStateException("Failed to create message flow: Engine returned null. The conversation may have been interrupted.")
 
                 flow.collect { chunk ->
-                    if (chunk != null) {
+                    chunk?.let {
                         try {
-                            sb.append(chunk)
+                            sb.append(it)
                         } catch (e: Exception) {
                             CrashLogger.w(TAG, "Failed to append chunk: ${e.message}", e)
                         }
                     }
-                }
             }
 
             val result = sb.toString().trim()
